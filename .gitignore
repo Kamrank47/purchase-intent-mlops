@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.deps/
+*.egg-info/
+
+# Artifacts and local state
+artifacts/
+mlruns/
+mlartifacts/
+mlflow.db
+.dvc/cache/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# Environment
+.env
+.env.*
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

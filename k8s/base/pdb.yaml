@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: purchase-intent-api
+  labels:
+    app.kubernetes.io/name: purchase-intent-api
+    app.kubernetes.io/part-of: purchase-intent
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: purchase-intent-api

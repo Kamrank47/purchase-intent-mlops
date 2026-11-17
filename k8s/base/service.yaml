@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchase-intent-api
+  labels:
+    app.kubernetes.io/name: purchase-intent-api
+    app.kubernetes.io/part-of: purchase-intent
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: purchase-intent-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

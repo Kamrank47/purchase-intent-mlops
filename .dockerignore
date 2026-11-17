@@ -1,0 +1,16 @@
+.git
+.github
+.deps
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+mlruns
+tests
+k8s
+argocd
+docs
+data
+.env
+.env.*

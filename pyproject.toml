@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "purchase-intent-mlops"
+version = "0.1.0"
+description = "End-to-end MLOps reference project: training, tracking, serving, deployment and monitoring for online purchase-intent prediction."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Kamran Hashmi" }]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24",
+  "scikit-learn>=1.3",
+  "joblib>=1.3",
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+tracking = ["mlflow>=2.12,<4"]
+monitoring = ["evidently>=0.4"]
+dev = ["pytest>=8.0", "httpx>=0.27", "ruff>=0.4"]
+all = ["mlflow>=2.12,<4", "evidently>=0.4", "pytest>=8.0", "httpx>=0.27", "ruff>=0.4"]
+
+[project.scripts]
+intent-train = "intent_mlops.train:main"
+intent-serve = "intent_mlops.serve:main"
+intent-monitor = "intent_mlops.monitor:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/intent_mlops"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"

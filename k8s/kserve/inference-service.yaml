@@ -1,0 +1,25 @@
+# KServe alternative to the plain Deployment.
+# Requires KServe and a storage URI that holds a saved sklearn model directory.
+# Replace storageUri with your registry or object-storage location before applying.
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: purchase-intent
+  namespace: mlops
+  annotations:
+    serving.kserve.io/deploymentMode: Serverless
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 5
+    scaleTarget: 1
+    scaleMetric: concurrency
+    sklearn:
+      storageUri: s3://purchase-intent-models/purchase-intent
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 1
+          memory: 1Gi

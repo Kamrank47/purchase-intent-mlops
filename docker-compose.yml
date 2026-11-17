@@ -1,0 +1,44 @@
+name: purchase-intent
+
+services:
+  api:
+    build:
+      context: .
+      target: with-model
+    image: purchase-intent-mlops:local
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_PATH: /app/artifacts/model.joblib
+      MODEL_META_PATH: /app/artifacts/model_meta.json
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz').status == 200 else 1)",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # Optional tracking server: `docker compose --profile tracking up`
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.17.2
+    profiles: ["tracking"]
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow:/mlflow
+
+volumes:
+  mlflow:
