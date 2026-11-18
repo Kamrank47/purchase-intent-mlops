@@ -86,7 +86,7 @@ jobs:
           push: false
           tags: purchase-intent-mlops:ci
       - name: Scan
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: purchase-intent-mlops:ci
           format: table
